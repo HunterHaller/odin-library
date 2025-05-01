@@ -1,0 +1,11 @@
+#book-collection{
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr 1fr;
+}
+
+.book-card{
+    background-color: wheat;
+    border: 1px solid gray;
+    padding: 10px;
+}
