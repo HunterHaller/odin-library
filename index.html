@@ -5,22 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="styles.css">
-    <title>Odin's Library</title>
+    <title>Odin's Valid Library</title>
 </head>
 <body>
     <h1>Odin's Grand Library</h1>
 
     <button id="newBookButton">New Book</button>
     <dialog id="newBookDialog">
-        <form action="" method="dialog" class="hidden">
+        <form action="" method="dialog" class="hidden" id="bookForm">
             <label for="title">Title:</label>
-            <input type="text" id="title" name="title" placeholder="Island of Doom" autofocus>
+            <input type="text" id="title" name="title" placeholder="Island of Doom" autofocus required>
             <br>
             <label for="author">Author:</label>
-            <input type="text" id="author" name="author" placeholder="Greg Farshtey">
+            <input type="text" id="author" name="author" placeholder="Greg Farshtey" required>
             <br>
             <label for="pages">Page count:</label>
-            <input type="number" id="pages" name="pages" placeholder="105">
+            <input type="number" id="pages" name="pages" placeholder="105" min ="1" required>
             <br>
             <label for="read">Read already?</label>
             <input type="checkbox" id="read" name="read">

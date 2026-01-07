@@ -2,7 +2,7 @@ const myLibrary = [];
 
 //With this class, I refactor the Book object as a class instead of regular function.
 class bookClass {
-    constructor(title, author, pages, read, id){
+    constructor(title, author, pages, read, id) {
         this.title = title;
         this.author = author;
         this.pages = pages;
@@ -10,7 +10,7 @@ class bookClass {
         this.id = id;
     }
 
-    get info(){
+    get info() {
         return this.title + " by " + this.author + ", " + this.pages + " pages, " + (this.read ? "read." : "not read yet.");
     }
 
@@ -118,41 +118,93 @@ newBookButton.addEventListener("click", function () {
     dialogForm.show();
 })
 
-let submitBookButton = document.querySelector("#submitBookButton");
-submitBookButton.addEventListener("click", function () {
+function submitValidBook() {
     const newTitle = document.querySelector("#title").value;
     const newAuthor = document.querySelector("#author").value;
     const newPages = document.querySelector("#pages").value;
     const newRead = document.querySelector("#read").checked;
     addBookToLibrary(newTitle, newAuthor, newPages, newRead);
+    dialogForm.close();
+    document.querySelector("#bookForm").reset();
     refreshList();
+}
+
+
+//submitBookButton.addEventListener("click", function () {
+//    const newTitle = document.querySelector("#title").value;
+//    const newAuthor = document.querySelector("#author").value;
+//    const newPages = document.querySelector("#pages").value;
+//    const newRead = document.querySelector("#read").checked;
+//    addBookToLibrary(newTitle, newAuthor, newPages, newRead);
+//    refreshList();
+//})
+
+//JS FORM VALIDATION
+let titleInput = document.querySelector("#title");
+let authorInput = document.querySelector("#author");
+let pagesInput = document.querySelector("#pages");
+let submitBookButton = document.querySelector("#submitBookButton");
+
+//Errors to throw on form submission:
+submitBookButton.addEventListener("click", (event) => {
+    console.log("Checking form validity...");
+
+    titleInput.setCustomValidity("");
+    authorInput.setCustomValidity("");
+    pagesInput.setCustomValidity("");
+    console.log("All validities cleared.");
+
+    if (titleInput.validity.valueMissing) {
+        console.log("Title field empty");
+        titleInput.setCustomValidity("You must provide a book title!");
+    } else if (authorInput.validity.valueMissing) {
+        console.log("Author field empty!");
+        authorInput.setCustomValidity("You must provide an author name!");
+    } else if (pagesInput.validity.valueMissing) {
+        console.log("Page count empty!");
+        pagesInput.setCustomValidity("You must enter a page count!");
+    } else if (pagesInput.validity.rangeUnderflow) {
+        console.log("Page count too low on submission!");
+        pagesInput.setCustomValidity("Page count too low!");
+    } else {
+        console.log("All clear!");
+        submitValidBook();
+    }
 })
 
-function bookRemover(){
+//Error to be thrown while page count is being entered:
+pagesInput.addEventListener("input", (event) => {
+    if (pagesInput.validity.rangeUnderflow) {
+        console.log("Page count too low!");
+        pagesInput.setCustomValidity("You must have a page count greater than zero!");
+    }
+})
+
+function bookRemover() {
     const id = this.dataset.bookid;
     console.log("Removing book with id: " + id);
 
-    for(var i = 0; i < myLibrary.length; i++) {
-        if(myLibrary[i].id == id) {
+    for (var i = 0; i < myLibrary.length; i++) {
+        if (myLibrary[i].id == id) {
             console.log("Found!");
             myLibrary.splice(i, 1);
             refreshList();
             break;
-        } else{
+        } else {
             console.log("ID not found!");
         }
     }
 }
 
-function bookReader(){
+function bookReader() {
     const id = this.dataset.bookid;
-    for(var i = 0; i < myLibrary.length; i++) {
-        if(myLibrary[i].id == id) {
+    for (var i = 0; i < myLibrary.length; i++) {
+        if (myLibrary[i].id == id) {
             console.log("Found!");
             myLibrary[i].toggleRead();
             refreshList();
             break;
-        } else{
+        } else {
             console.log("ID not found!");
         }
     }
